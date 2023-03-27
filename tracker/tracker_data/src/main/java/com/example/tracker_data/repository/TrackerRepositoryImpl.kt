@@ -30,8 +30,19 @@ class TrackerRepositoryImpl(
                 pageSize = pageSize
             )
 
+            // to only return valid data with our business rules
             Result.success(
-                searchDto.products.mapNotNull { it.toTrackableFood() } // maps result to domain model that does not contains android specific dependencies
+                searchDto.products
+                    .filter {
+                        val calculatedCalories =
+                            it.nutriments.carbohydrates100g * 4f +
+                                    it.nutriments.proteins100g * 4f +
+                                    it.nutriments.fat100g * 9f
+                        val lowerBound = calculatedCalories * 0.99f
+                        val upperBound = calculatedCalories * 1.01f
+                        it.nutriments.energyKcal100g in (lowerBound..upperBound)
+                    }
+                    .mapNotNull { it.toTrackableFood() } // maps result to domain model that does not contains android specific dependencies
             )
         } catch (e: Exception) {
             e.printStackTrace()

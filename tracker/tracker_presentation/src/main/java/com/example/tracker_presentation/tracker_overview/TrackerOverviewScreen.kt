@@ -1,8 +1,6 @@
 package com.example.tracker_presentation.tracker_overview
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,8 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -33,21 +29,12 @@ import com.example.tracker_presentation.tracker_overview.components.TrackedFoodI
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun TrackerOverviewScreen(
-    onNavigate: (UiEvent.Navigate) -> Unit, // the same is explained in the age screen
+    onNavigateToSearch: (String, Int, Int, Int) -> Unit, // this ones are the parameters passed to the search arguments route in the mainActivity
     viewModel: TrackerOverviewViewModel = hiltViewModel() // the same is explained in the age screen
 ) {
     val spacing = LocalSpacing.current
     val state = viewModel.state
     val context = LocalContext.current
-
-    LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is UiEvent.Navigate -> onNavigate(event)
-                else -> Unit
-            }
-        }
-    }
 
     // to allow the content to be scrollable
     LazyColumn(
@@ -107,8 +94,13 @@ fun TrackerOverviewScreen(
                                 currentMeal.name.asString(context)
                             ),
                             onClick = {
-                                viewModel.onEvent(
-                                    TrackerOverviewEvent.OnAddFoodClick(currentMeal)
+                                // we use the fun passed to navigate to the search screen that is in mainActivity
+                                // sends the data to be used by the callback passed
+                                onNavigateToSearch.invoke(
+                                    currentMeal.name.asString(context),
+                                    state.date.dayOfMonth,
+                                    state.date.monthValue,
+                                    state.date.year
                                 )
                             },
                             modifier = Modifier.fillMaxWidth()

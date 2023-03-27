@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.domain.preferences.Preferences
-import com.example.core.navigation.Route
 import com.example.core.util.UiEvent
 import com.example.tracker_domain.use_case.TrackerUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,22 +43,6 @@ class TrackerOverviewViewModel @Inject constructor(
     // receives the event triggered and reacts to it
     fun onEvent(event: TrackerOverviewEvent) {
         when (event) {
-            is TrackerOverviewEvent.OnAddFoodClick -> {
-                viewModelScope.launch {
-                    // our channel to one time events
-                    _uiEvent.send(
-                        UiEvent.Navigate(
-                            // our route like url made to catch the params in the screen
-                            // the route that catches this is on mainActivity
-                            route = Route.SEARCH
-                                    + "/${event.meal.mealType.name}"
-                                    + "/${state.date.dayOfMonth}"
-                                    + "/${state.date.monthValue}"
-                                    + "/${state.date.year}"
-                        )
-                    )
-                }
-            }
             is TrackerOverviewEvent.OnDeleteTrackedFoodClick -> {
                 viewModelScope.launch {
                     trackerUseCases.deleteTrackedFood(event.trackedFood)

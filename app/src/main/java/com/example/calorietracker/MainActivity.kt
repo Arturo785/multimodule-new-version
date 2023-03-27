@@ -60,6 +60,10 @@ class MainActivity : ComponentActivity() {
                 ) { padding ->
                     //https://stackoverflow.com/questions/72084865/content-padding-parameter-it-is-not-used
 
+                    // all the navigation events are managed in here instead of having the event in every screen in order
+                    // to the modules not be tight coupled with events that do not belong to them and be reusable
+                    // this way we only say that the navigation was successful and that the one that implements the module
+                    // main activity in this case is the responsible of doing the navigation and passing the callbacks to the functions
                     // our navHost
                     NavHost(
                         navController = navController,
@@ -72,9 +76,7 @@ class MainActivity : ComponentActivity() {
 
                         // each of our routes allowed
                         composable(Route.WELCOME) {
-                            WelcomeScreen { routeSelected -> // the lambda passed to it
-                                navController.navigate(routeSelected.route)
-                            }
+                            WelcomeScreen { navController.navigate(Route.GENDER) }
                             // we could also make use of an extension function in this package navigate to do it like this
                             //  WelcomeScreen(onNavigate = navController::navigate)
 
@@ -83,56 +85,64 @@ class MainActivity : ComponentActivity() {
                         composable(Route.AGE) {
                             AgeScreen(
                                 scaffoldState = scaffoldState, // to show the snackbar
-                                onNavigate = { routeSelected -> // the lambda passed to it
-                                    navController.navigate(routeSelected.route)
-                                })
+                                onNextClick = { navController.navigate(Route.HEIGHT) }
+                            )
                         }
                         composable(Route.GENDER) {
                             // the viewModel is a default parameter created on the Screen
-                            GenderScreen(onNavigate = { routeSelected -> // the lambda passed to it
-                                navController.navigate(routeSelected.route)
+                            GenderScreen(onNextClick = {
+                                navController.navigate(Route.AGE)
                             })
                         }
                         composable(Route.HEIGHT) {
                             HeightScreen(
                                 scaffoldState = scaffoldState, // to show the snackbar
-                                onNavigate = { routeSelected -> // the lambda passed to it
-                                    navController.navigate(routeSelected.route)
+                                onNextClick = {
+                                    navController.navigate(Route.ACTIVITY)
                                 })
                         }
                         composable(Route.WEIGHT) {
                             WeightScreen(
                                 scaffoldState = scaffoldState, // to show the snackbar
-                                onNavigate = { routeSelected -> // the lambda passed to it
-                                    navController.navigate(routeSelected.route)
+                                onNextClick = {
+                                    navController.navigate(Route.ACTIVITY)
                                 })
                         }
                         composable(Route.NUTRIENT_GOAL) {
                             NutrientGoalScreen(
                                 scaffoldState = scaffoldState, // to show the snackbar
-                                onNavigate = { routeSelected -> // the lambda passed to it
-                                    navController.navigate(routeSelected.route)
+                                onNextClick = {
+                                    navController.navigate(Route.TRACKER_OVERVIEW)
                                 })
 
                         }
                         composable(Route.ACTIVITY) {
-                            ActivityScreen(
-                                onNavigate = { routeSelected -> // the lambda passed to it
-                                    navController.navigate(routeSelected.route)
-                                })
+                            ActivityScreen(onNextClick = {
+                                navController.navigate(Route.GOAL)
+                            })
                         }
                         composable(Route.GOAL) {
-                            GoalScreen(
-                                onNavigate = { routeSelected -> // the lambda passed to it
-                                    navController.navigate(routeSelected.route)
-                                })
+                            GoalScreen(onNextClick = {
+                                navController.navigate(Route.NUTRIENT_GOAL)
+                            })
                         }
 
                         composable(Route.TRACKER_OVERVIEW) {
+                            // this is the callback we pass to the screen that gets executed when the success is triggered in the viewModel
+                            // this is the callback passed, the data is sent from inside the screen and controlled what happens after in here
+
+                            // this totally matches the route below
                             TrackerOverviewScreen(
-                                onNavigate = { routeSelected -> // the lambda passed to it
-                                    navController.navigate(routeSelected.route)
-                                })
+                                onNavigateToSearch = { mealName, day, month, year -> // params received from the screen
+                                    // what happens with our callback
+                                    navController.navigate(
+                                        Route.SEARCH + "/$mealName" +
+                                                "/$day" +
+                                                "/$month" +
+                                                "/$year"
+                                    )
+                                }
+                            )
                         }
                         composable(
                             // our route and arguments like URL, remember it only allows primitive date types

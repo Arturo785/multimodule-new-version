@@ -6,7 +6,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.core.R
@@ -18,7 +17,7 @@ import com.example.onboarding_presentation.components.ActionButton
 
 @Composable
 fun WelcomeScreen(
-    onNavigate: (UiEvent.Navigate) -> Unit  // this callback is used instead of passing the navController into the composable which is a little bit more clean
+    onNextClick: () -> Unit  // this callback is used instead of passing the navController into the composable which is a little bit more clean
 ) {
     //val context = LocalContext.current // this way we can access the context in a composable
     val spacing = LocalSpacing.current
@@ -41,7 +40,7 @@ fun WelcomeScreen(
         ActionButton(
             text = stringResource(id = R.string.next),
             onClick = {
-                onNavigate.invoke(UiEvent.Navigate(Route.GENDER))
+                onNextClick.invoke()
             },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )

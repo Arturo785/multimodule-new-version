@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
@@ -17,6 +18,7 @@ import androidx.navigation.navArgument
 import com.example.calorietracker.ui.theme.CalorieTrackerTheme
 import com.example.core.domain.preferences.Preferences
 import com.example.core.navigation.Route
+import com.example.core_ui.LocalSpacing
 import com.example.onboarding_presentation.activity.ActivityScreen
 import com.example.onboarding_presentation.age.AgeScreen
 import com.example.onboarding_presentation.gender.GenderScreen
@@ -44,6 +46,16 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+     /*   CompositionLocalProvider(LocalSpacing provides NewDimens()) {
+            // things in this scope will use NewDimens
+        }*/
+
+       // LocalSpacing.current
+        // this thing outside the scope of CompositionLocalProvider
+        // will use
+        // val LocalSpacing = compositionLocalOf { Dimensions() }
+        // the default defined value
 
         val shouldShowOnboarding = preferences.loadShouldShowOnboarding()
 

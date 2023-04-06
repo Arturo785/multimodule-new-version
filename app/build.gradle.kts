@@ -15,7 +15,7 @@ android {
         versionCode = ProjectConfig.versionCode
         versionName = ProjectConfig.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.calorietracker.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -111,5 +111,8 @@ dependencies {
     androidTestImplementation(Testing.hiltTesting)
     kaptAndroidTest(DaggerHilt.hiltCompiler)
     androidTestImplementation(Testing.testRunner)
+
+    implementation(Testing.mediaMetadataRetrieverCore)
+    implementation(Testing.mediaMetadataRetrieverNative)
 
 }

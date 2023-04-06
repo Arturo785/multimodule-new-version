@@ -7,7 +7,7 @@ sealed class GoalType(val name: String) {
 
     companion object {
         fun fromString(name: String): GoalType {
-            return when(name) {
+            return when(name.lowercase()) {
                 "lose_weight" -> LoseWeight
                 "keep_weight" -> KeepWeight
                 "gain_weight" -> GainWeight

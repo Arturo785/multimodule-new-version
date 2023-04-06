@@ -11,7 +11,7 @@ object Testing {
     private const val truthVersion = "1.1.3"
     const val truth = "com.google.truth:truth:$truthVersion"
 
-    private const val mockkVersion = "1.10.0"
+    private const val mockkVersion = "1.11.0"
     const val mockk = "io.mockk:mockk:$mockkVersion"
     const val mockkAndroid = "io.mockk:mockk-android:$mockkVersion"
 
@@ -27,4 +27,8 @@ object Testing {
 
     private const val testRunnerVersion = "1.4.0"
     const val testRunner = "androidx.test:runner:$testRunnerVersion"
+
+    private const val metadataRetrieverVersion = "1.0.15"
+    const val mediaMetadataRetrieverNative = "com.github.wseemann:FFmpegMediaMetadataRetriever-native:${metadataRetrieverVersion}"
+    const val mediaMetadataRetrieverCore = "com.github.wseemann:FFmpegMediaMetadataRetriever-core:${metadataRetrieverVersion}"
 }

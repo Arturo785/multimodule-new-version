@@ -8,6 +8,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.LastBaseline
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
@@ -46,6 +48,7 @@ fun UnitTextField(
             modifier = Modifier
                 .width(IntrinsicSize.Min) // will only use as much space as it really needs, makes center the value easier, like wrap content
                 .alignBy(LastBaseline) // will align both texts as the same level no matter the difference in sizes
+                .semantics { contentDescription = "unit text field" }
         )
 
         Spacer(modifier = Modifier.width(spacing.spaceSmall))

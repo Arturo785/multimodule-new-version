@@ -40,6 +40,8 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
@@ -73,6 +75,9 @@ fun TrackableFoodItem(
             .background(MaterialTheme.colors.surface)
             .clickable { onClick.invoke() }
             .padding(end = spacing.spaceMedium)
+            .semantics {
+                contentDescription = "Card item"
+            }
     ) {
         // arranges the icon and the macro information
         Row(
@@ -186,6 +191,9 @@ fun TrackableFoodItem(
                             )
                             .alignBy(LastBaseline)
                             .padding(spacing.spaceMedium)
+                            .semantics {
+                                contentDescription = "Amount"
+                            }
                     )
                     Spacer(modifier = Modifier.width(spacing.spaceExtraSmall))
                     // the grams text next to the textField

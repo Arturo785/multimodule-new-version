@@ -8,7 +8,7 @@ sealed class Gender(val name: String) {
 
     companion object {
         fun fromString(name: String): Gender {
-            return when(name) {
+            return when(name.lowercase()) {
                 "male" -> Male
                 "female" -> Female
                 else -> Female
